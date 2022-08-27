@@ -1,6 +1,7 @@
 import { Heart } from "phosphor-react";
 import styled from "styled-components";
 import { useLikedItems } from "../../../shared/hooks/LikedItems";
+import { ILikedItems } from "../../contexts/LikedItemsContext";
 
 const StCard = styled.div`
   ::-webkit-scrollbar {
@@ -64,30 +65,43 @@ const StCard = styled.div`
   }
 `;
 
-interface ICardProps {
-  title: string;
-  description: string;
-  image: string;
-}
-
-export const Card = ({ title, description, image }: ICardProps) => {
+export const Card = ({ title, description, image, id, liked }: ILikedItems) => {
   const { likedItems, setLikedItems } = useLikedItems();
 
   const handleFavorite = () => {
-    setLikedItems((prev: any) => {
-      return [...prev, { title, description, image }];
+    setLikedItems((prev: ILikedItems[]) => {
+      if (
+        likedItems.some((item: ILikedItems) => {
+          return item.id === id;
+        })
+      ) {
+        let newItems: ILikedItems[] = [];
+
+        likedItems.forEach((item: ILikedItems) => {
+          if (item.id !== id) {
+            newItems.push(item);
+          }
+        });
+        console.log(newItems);
+        return newItems;
+      } else {
+        return [...prev, { id, title, description, image, liked }];
+      }
     });
   };
   return (
-    <StCard>
+    <StCard key={id}>
       <div className="title">
-        <h3>{title}</h3>
+        <h3>
+          {title}
+          {liked}
+        </h3>
       </div>
       <img src={image} alt={title} />
       <p>{description}</p>
       <div className="action">
         <button onClick={handleFavorite}>
-          <Heart />
+          {liked ? <Heart weight="fill" /> : <Heart weight="bold" />}
         </button>
       </div>
     </StCard>

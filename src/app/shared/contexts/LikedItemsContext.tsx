@@ -1,10 +1,11 @@
 import { createContext, useState } from "react";
 
-interface ILikedItems {
+export interface ILikedItems {
   id: number;
   title: string;
   description: string;
   image: string;
+  liked: boolean;
 }
 
 export const LikedItemsContext = createContext<any>([]);

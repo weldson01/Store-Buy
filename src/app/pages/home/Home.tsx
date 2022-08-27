@@ -6,24 +6,12 @@ import {
   IProducts,
   ServiceProducts,
 } from "../../shared/service/Api/serviceProducts/ServiceProducts";
-import { Card } from "./components/Card";
-import { CardWrapper } from "./components/CardWrapper";
+import { Card } from "../../shared/components/cards/Card";
+import { CardWrapper } from "../../shared/components/cards/CardWrapper";
 
 export const Home = () => {
   const [products, setProducts] = useState<IProducts[]>([]);
-  const { likedItems, setLikedItems } = useLikedItems();
-
-  useEffect(() => {
-    setLikedItems([
-      {
-        id: 0,
-        title: "fkskf",
-        description: "foksfo",
-        image: "kfoskofk",
-      },
-    ]);
-    console.log(likedItems);
-  }, []);
+  const { likedItems } = useLikedItems();
 
   useEffect(() => {
     ServiceProducts()
@@ -39,6 +27,8 @@ export const Home = () => {
   return (
     <>
       <Link to="/products">produtcs</Link>
+      <Link to="/liked">marcados como gostei</Link>
+
       <p>
         Liked Items:{" "}
         {likedItems &&
@@ -54,7 +44,10 @@ export const Home = () => {
                 title={item.title}
                 description={item.description}
                 image={item.image}
-                key={item.id}
+                id={item.id}
+                liked={likedItems.some((lItem: any) => {
+                  return lItem.id === item.id;
+                })}
               />
             );
           })}
