@@ -20,8 +20,12 @@ const getProducts = async (): Promise<IProducts[] | ApiException> => {
   }
 };
 const getProductById = async (id: number) => {
-  const data = await Api().get(`/${id}`);
-  return data;
+  try {
+    const data = await Api().get(`/${id}`);
+    return data;
+  } catch (err) {
+    return err;
+  }
 };
 export const ServiceProducts = () => {
   return { getProducts, getProductById };

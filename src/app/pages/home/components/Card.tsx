@@ -1,5 +1,6 @@
 import { Heart } from "phosphor-react";
 import styled from "styled-components";
+import { useLikedItems } from "../../../shared/hooks/LikedItems";
 
 const StCard = styled.div`
   ::-webkit-scrollbar {
@@ -56,6 +57,7 @@ const StCard = styled.div`
         color: rgba(200, 10, 20);
         cursor: pointer;
         &:hover {
+          transform: scale(1.2);
         }
       }
     }
@@ -69,6 +71,13 @@ interface ICardProps {
 }
 
 export const Card = ({ title, description, image }: ICardProps) => {
+  const { likedItems, setLikedItems } = useLikedItems();
+
+  const handleFavorite = () => {
+    setLikedItems((prev: any) => {
+      return [...prev, { title, description, image }];
+    });
+  };
   return (
     <StCard>
       <div className="title">
@@ -77,7 +86,7 @@ export const Card = ({ title, description, image }: ICardProps) => {
       <img src={image} alt={title} />
       <p>{description}</p>
       <div className="action">
-        <button>
+        <button onClick={handleFavorite}>
           <Heart />
         </button>
       </div>
