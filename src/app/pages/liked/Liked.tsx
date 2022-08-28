@@ -1,11 +1,15 @@
+import { useEffect } from "react";
 import { Card } from "../../shared/components/cards/Card";
 import { CardWrapper } from "../../shared/components/cards/CardWrapper";
 import { useLikedItems } from "../../shared/hooks/LikedItems";
 
 export const Liked = () => {
-  const { likedItems, setLikedItems } = useLikedItems();
+  const { likedItems } = useLikedItems();
+  useEffect(() => {
+    document.title = "Lista de interesses - Store Buy";
+  }, []);
   return (
-    <>
+    <main>
       <h3>Items marcados como gostado</h3>
       <CardWrapper>
         {likedItems &&
@@ -22,6 +26,6 @@ export const Liked = () => {
             );
           })}
       </CardWrapper>
-    </>
+    </main>
   );
 };

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useLikedItems } from "../../shared/hooks/LikedItems";
 import { ApiException } from "../../shared/service/Api/ApiException";
 import {
@@ -8,10 +7,15 @@ import {
 } from "../../shared/service/Api/serviceProducts/ServiceProducts";
 import { Card } from "../../shared/components/cards/Card";
 import { CardWrapper } from "../../shared/components/cards/CardWrapper";
+import styled from "styled-components";
 
 export const Home = () => {
   const [products, setProducts] = useState<IProducts[]>([]);
   const { likedItems } = useLikedItems();
+
+  useEffect(() => {
+    document.title = "Home - Store Buy";
+  }, []);
 
   useEffect(() => {
     ServiceProducts()
@@ -25,17 +29,7 @@ export const Home = () => {
       });
   }, []);
   return (
-    <>
-      <Link to="/products">produtcs</Link>
-      <Link to="/liked">marcados como gostei</Link>
-
-      <p>
-        Liked Items:{" "}
-        {likedItems &&
-          likedItems.map((item: any) => {
-            return <>{item.title}</>;
-          })}
-      </p>
+    <main>
       <CardWrapper>
         {products &&
           products.map((item) => {
@@ -52,6 +46,6 @@ export const Home = () => {
             );
           })}
       </CardWrapper>
-    </>
+    </main>
   );
 };

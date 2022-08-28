@@ -16,7 +16,7 @@ const StCard = styled.div`
   }
   font-family: sans-serif;
   box-sizing: border-box;
-  width: 20rem;
+  width: 18rem;
   height: 35rem;
   border: 1px solid black;
   border-radius: 10px;
@@ -30,7 +30,7 @@ const StCard = styled.div`
   }
   .title {
     font-size: 1.1rem;
-    min-width: 100%;
+    width: 100%;
     height: 6rem;
     background-color: #333;
     color: #fff;
@@ -40,12 +40,24 @@ const StCard = styled.div`
   img {
     width: 18rem;
     height: 40%;
+    padding: 0 0.5rem;
   }
   p {
     text-align: center;
     padding: 0 1rem;
-    height: 7.2rem;
+    height: 8rem;
     overflow-y: scroll;
+    &::-webkit-scrollbar {
+      position: absolute;
+      right: 5px;
+      width: 0.8rem;
+      background-color: #999;
+      border-radius: 5px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #333;
+      border-radius: 5px;
+    }
   }
   .action {
     height: 3rem;
@@ -93,7 +105,7 @@ export const Card = ({ title, description, image, id, liked }: ILikedItems) => {
     <StCard key={id}>
       <div className="title">
         <h3>
-          {title}
+          {`${title.slice(0, 40)} ${title.length > 40 && "..."}`}
           {liked}
         </h3>
       </div>
