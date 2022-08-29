@@ -1,3 +1,3 @@
 export * from "./home/Home";
-export * from "./products/Products";
+export * from "./cart/Cart";
 export * from "./liked/Liked";

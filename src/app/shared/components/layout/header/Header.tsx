@@ -26,7 +26,7 @@ export const Header = () => {
       </div>
       <nav>
         <LinkButton to="/" label="Home" />
-        <LinkButton to="/products" label="Produtos" />
+        <LinkButton to="/cart" label="Carrinho" />
         <LinkButton to="/liked" label="Interesse" />
       </nav>
     </StyledHeader>

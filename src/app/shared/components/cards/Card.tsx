@@ -1,7 +1,8 @@
-import { Heart } from "phosphor-react";
+import { Heart, ShoppingCart } from "phosphor-react";
 import styled from "styled-components";
 import { useLikedItems } from "../../../shared/hooks/LikedItems";
-import { ILikedItems } from "../../contexts/LikedItemsContext";
+import { useCartItems } from "../../hooks/CartItems";
+import { IItemsAPI } from "../../types";
 
 const StCard = styled.div`
   ::-webkit-scrollbar {
@@ -61,6 +62,11 @@ const StCard = styled.div`
   }
   .action {
     height: 3rem;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: center;
     button {
       background: transparent;
       border: none;
@@ -77,19 +83,44 @@ const StCard = styled.div`
   }
 `;
 
-export const Card = ({ title, description, image, id, liked }: ILikedItems) => {
+export const Card = ({
+  title,
+  description,
+  image,
+  id,
+  liked = false,
+}: IItemsAPI) => {
   const { likedItems, setLikedItems } = useLikedItems();
+  const { cart, setCart } = useCartItems();
 
-  const handleFavorite = () => {
-    setLikedItems((prev: ILikedItems[]) => {
+  const handleSetCard = () => {
+    setCart((prevCart: IItemsAPI[]) => {
       if (
-        likedItems.some((item: ILikedItems) => {
+        cart.some((item: IItemsAPI) => {
+          item.id == id;
+        })
+      ) {
+        let newCart: IItemsAPI[] = [];
+        cart.map((item: IItemsAPI) => {
+          if (item.id != id) {
+            newCart.push(item);
+          }
+        });
+        return newCart;
+      }
+      return [...prevCart, { title, description, image, id, liked }];
+    });
+  };
+  const handleFavorite = () => {
+    setLikedItems((prev: IItemsAPI[]) => {
+      if (
+        likedItems.some((item: IItemsAPI) => {
           return item.id === id;
         })
       ) {
-        let newItems: ILikedItems[] = [];
+        let newItems: IItemsAPI[] = [];
 
-        likedItems.forEach((item: ILikedItems) => {
+        likedItems.forEach((item: IItemsAPI) => {
           if (item.id !== id) {
             newItems.push(item);
           }
@@ -112,6 +143,15 @@ export const Card = ({ title, description, image, id, liked }: ILikedItems) => {
       <img src={image} alt={title} />
       <p>{description}</p>
       <div className="action">
+        <button onClick={handleSetCard}>
+          {cart.some((item: any) => {
+            item.id == id;
+          }) ? (
+            <ShoppingCart weight="fill" />
+          ) : (
+            <ShoppingCart weight="bold" />
+          )}
+        </button>
         <button onClick={handleFavorite}>
           {liked ? <Heart weight="fill" /> : <Heart weight="bold" />}
         </button>

@@ -2,6 +2,7 @@ import { BrowserRouter } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import { AppRoutes } from "./routes/Routes";
 import { Footer, Header } from "./shared/components/layout";
+import { CartContextProvider } from "./shared/contexts/CartContext";
 import { LikedItemsContextProvider } from "./shared/contexts/LikedItemsContext";
 
 const GlobalStyle = createGlobalStyle`
@@ -21,9 +22,11 @@ export const App = () => {
     <BrowserRouter>
       <GlobalStyle />
       <LikedItemsContextProvider>
-        <Header />
-        <AppRoutes />
-        <Footer />
+        <CartContextProvider>
+          <Header />
+          <AppRoutes />
+          <Footer />
+        </CartContextProvider>
       </LikedItemsContextProvider>
     </BrowserRouter>
   );

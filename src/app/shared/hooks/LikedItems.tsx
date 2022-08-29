@@ -1,4 +1,4 @@
-import { useCallback, useContext } from "react";
+import { useContext } from "react";
 import { LikedItemsContext } from "../contexts/LikedItemsContext";
 
 export const useLikedItems = () => {
